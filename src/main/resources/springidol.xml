@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <bean id="duke"
+          class="com.springinaction.agr.Juggler" >
+        <constructor-arg value="15" />
+    </bean>
+
+    <bean id="sonnet29"
+          class="com.springinaction.agr.Sonnet29">
+    </bean>
+
+    <bean id="poeticDuke"
+          class="com.springinaction.agr.PoeticJuggler">
+        <constructor-arg value="15">
+
+        </constructor-arg>
+        <constructor-arg ref="sonnet29" />
+    </bean>
+
+    <bean id="theStage"
+          class="com.springinaction.agr.Stage"
+          factory-method="getInstance" />
+
+    <bean id="auditorium"
+          class="com.springinaction.agr.Auditorium"
+          init-method="turnOnLights"
+          destroy-method="turnOffLights" />
+
+    <bean id="kenny"
+          class="com.springinaction.agr.Instrumentalist">
+        <property name="song" value="Jingle Bells" />
+    </bean>
+
+    <bean id="saxophone"
+          class="com.springinaction.agr.Saxophone" />
+
+</beans>

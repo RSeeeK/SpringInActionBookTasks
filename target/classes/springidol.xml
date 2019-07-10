@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <bean id="duke"
+          class="com.springinaction.agr.Juggler" >
+        <constructor-arg value="15" />
+    </bean>
+
+    <bean id="sonnet29"
+          class="com.springinaction.agr.Sonnet29">
+    </bean>
+
+    <bean id="poeticDuke"
+          class="com.springinaction.agr.PoeticJuggler">
+        <constructor-arg value="15">
+
+        </constructor-arg>
+        <constructor-arg ref="sonnet29" />
+    </bean>
+
+</beans>
