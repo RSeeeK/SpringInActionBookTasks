@@ -1,5 +1,7 @@
 package com.springinaction.agr;
 
+import com.springinaction.agr.instruments.Instrument;
+
 public class Instrumentalist implements Performer {
     public Instrumentalist() {
     }
@@ -7,6 +9,7 @@ public class Instrumentalist implements Performer {
     @Override
     public void perform() throws PerformanceException {
         System.out.println("Playing " + song + " : ");
+        instrument.play();
     }
 
     private String song;
