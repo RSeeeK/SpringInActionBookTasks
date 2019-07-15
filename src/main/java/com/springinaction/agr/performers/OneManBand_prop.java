@@ -1,26 +1,20 @@
 package com.springinaction.agr.performers;
 
-import com.springinaction.agr.instruments.Instrument;
-
-import java.util.Map;
-
-public class OneManBand implements Performer {
-    public OneManBand() {
+public class OneManBand_prop implements Performer {
+    public OneManBand_prop() {
     }
 
     @Override
     public void perform() throws PerformanceException {
-        for (String key :
-                instruments.keySet()) {
+        for (String key : instruments.stringPropertyNames()) {
             System.out.print(key + " : ");
-            Instrument instrument = instruments.get(key);
-            instrument.play();
+            System.out.println(instruments.get(key));
         }
     }
 
-    private Map<String,Instrument> instruments;
+    private java.util.Properties instruments;
 
-    public void setInstruments(Map<String,Instrument>  instruments) {
+    public void setInstruments(java.util.Properties  instruments) {
         this.instruments = instruments;
     }
 }

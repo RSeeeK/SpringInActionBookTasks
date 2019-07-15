@@ -1,4 +1,4 @@
-package com.springinaction.agr;
+package com.springinaction.agr.instruments;
 
 public interface Instrument {
     void play();

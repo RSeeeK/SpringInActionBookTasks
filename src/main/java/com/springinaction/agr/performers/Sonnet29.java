@@ -1,4 +1,6 @@
-package com.springinaction.agr;
+package com.springinaction.agr.performers;
+
+import com.springinaction.agr.performers.Poem;
 
 public class Sonnet29 implements Poem {
     private static String[] LINES = {

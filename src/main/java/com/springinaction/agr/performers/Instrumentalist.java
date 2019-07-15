@@ -1,6 +1,8 @@
-package com.springinaction.agr;
+package com.springinaction.agr.performers;
 
 import com.springinaction.agr.instruments.Instrument;
+import com.springinaction.agr.performers.PerformanceException;
+import com.springinaction.agr.performers.Performer;
 
 public class Instrumentalist implements Performer {
     public Instrumentalist() {

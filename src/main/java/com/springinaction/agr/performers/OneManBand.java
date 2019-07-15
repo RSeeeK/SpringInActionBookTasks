@@ -1,4 +1,4 @@
-package com.springinaction.agr;
+package com.springinaction.agr.performers;
 
 import com.springinaction.agr.instruments.Instrument;
 

@@ -1,4 +1,4 @@
-package com.springinaction.agr;
+package com.springinaction.agr.performers;
 
 public interface Poem {
     void recite();

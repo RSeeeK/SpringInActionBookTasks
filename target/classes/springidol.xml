@@ -1,24 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-4.3.xsd
+            http://www.springframework.org/schema/lang
+            http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
 
     <bean id="duke"
-          class="com.springinaction.agr.Juggler" >
+          class="com.springinaction.agr.performers.Juggler" >
         <constructor-arg value="15" />
     </bean>
 
     <bean id="sonnet29"
-          class="com.springinaction.agr.Sonnet29">
+          class="com.springinaction.agr.performers.Sonnet29">
     </bean>
 
     <bean id="poeticDuke"
-          class="com.springinaction.agr.PoeticJuggler">
+          class="com.springinaction.agr.performers.PoeticJuggler">
         <constructor-arg value="15">
 
         </constructor-arg>
         <constructor-arg ref="sonnet29" />
     </bean>
 
+    <bean id="theStage"
+          class="com.springinaction.agr.places.Stage"
+          factory-method="getInstance" />
+
+    <bean id="auditorium"
+          class="com.springinaction.agr.places.Auditorium"
+          init-method="turnOnLights"
+          destroy-method="turnOffLights" />
+
+    <bean id="kenny"
+          class="com.springinaction.agr.performers.Instrumentalist">
+        <property name="song" value="Jingle Bells" />
+        <property name="instrument" ref="piano" />
+    </bean>
+
+    <bean id="kenny_innerclass"
+          class="com.springinaction.agr.performers.Instrumentalist">
+        <property name="song" value="Jingle Bells" />
+        <property name="instrument">
+            <bean class="com.springinaction.agr.instruments.Saxophone" />
+        </property>
+    </bean>
+
+    <bean id="kenny_p"
+          class="com.springinaction.agr.performers.Instrumentalist"
+        p:song = "Jingle Bells"
+        p:instrument-ref="piano" />
+
+    <bean id="saxophone"
+          class="com.springinaction.agr.instruments.Saxophone" />
+
+    <bean id="piano"
+          class="com.springinaction.agr.instruments.Piano" />
+
+    <bean id="guitar"
+          class="com.springinaction.agr.instruments.Guitar" />
+
+    <bean id="cymbal"
+          class="com.springinaction.agr.instruments.Cymbal" />
+
+    <bean id="harmonica"
+          class="com.springinaction.agr.instruments.Harmonica" />
+
+    <bean id="hank"
+          class="com.springinaction.agr.performers.OneManBand">
+        <property name="instruments">
+            <map>
+                <entry key="GUITAR" value-ref="guitar"/>
+                <entry key="CYMBAL" value-ref="cymbal"/>
+                <entry key="HARMONICA" value-ref="harmonica"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="hank_property"
+          class="com.springinaction.agr.performers.OneManBand_prop">
+        <property name="instruments">
+            <props>
+                <prop key="GUITAR">STRUM STRUM STRUM</prop>
+                <prop key="CYMBAL">CRASH CRASH CRASH</prop>
+                <prop key="HARMONICA">HUM HUM HUM</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="carl"
+          class="com.springinaction.agr.performers.Instrumentalist">
+        <property name="song" value="#{kenny.song != null ? kenny.song : 'Greensleeves'}"/>
+    </bean>
+
+    <bean id="carl_2"
+          class="com.springinaction.agr.performers.Instrumentalist">
+        <property name="song" value="#{kenny.song ?: 'Greensleeves'}"/>
+    </bean>
+
+    <bean id="country_usa"
+          class="com.springinaction.agr.places.Country">
+        <property name="chosenCity" value="#{cities[2]}"/>
+    </bean>
+
+    <bean id="some_country"
+          class="com.springinaction.agr.places.Country">
+        <property name="chosenCity" value="#{cities[T(java.lang.Math).random() * cities.size()]}"/>
+    </bean>
+
+    <bean id="country_ukraine"
+          class="com.springinaction.agr.places.Country">
+        <property name="chosenCity" value="#{cities[4]}"/>
+    </bean>
+
+    <bean id="country_another"
+          class="com.springinaction.agr.places.Country">
+        <property name="bigCities" value="#{cities.?[population gt 100000]}"/>
+        <property name="firstBigCity" value="#{cities.^[population gt 100000]}"/>
+        <property name="lastBigCity" value="#{cities.$[population gt 100000]}"/>
+        <property name="cityNames" value="#{cities.![name]}"/>
+    </bean>
+
+    <util:list id="cities">
+        <bean class="com.springinaction.agr.places.City"
+              p:name="Chicago" p:state="IL" p:population="2853114"/>
+        <bean class="com.springinaction.agr.places.City"
+              p:name="Atlanta" p:state="GA" p:population="537958"/>
+        <bean class="com.springinaction.agr.places.City"
+              p:name="Dallas" p:state="TX" p:population="1279910"/>
+        <bean class="com.springinaction.agr.places.City"
+              p:name="Houston" p:state="TX" p:population="2242193"/>
+        <bean class="com.springinaction.agr.places.City"
+              p:name="Odessa" p:state="TX" p:population="90943"/>
+    </util:list>
+
+    <bean id="baseSaxophonist"
+          class="com.springinaction.agr.performers.Instrumentalist"
+          abstract="true">
+        <property name="instrument" ref="saxophone" />
+        <property name="song" value="Jingle Bells" />
+    </bean>
+
+    <bean id="david" parent="baseSaxophonist" />
+
+    <bean id="frank" parent="baseSaxophonist">
+        <property name="song" value="Mary had a little lamb" />
+    </bean>
+
+    <bean id="basePerformer" abstract="true">
+        <property name="song" value="Somewhere Over the Rainbow"/>
+    </bean>
+
+    <bean id="taylor"
+          class="com.springinaction.agr.performers.Vocalist"
+          parent="basePerformer" />
+
+    <bean id="stevie"
+          class="com.springinaction.agr.performers.Instrumentalist"
+          parent="basePerformer">
+        <property name="instrument" ref="guitar"></property>
+    </bean>
+
+    <bean id="harry"
+          class="com.springinaction.agr.performers.Magician">
+        <property name="magicBox" ref="magicBox" />
+        <property name="magicWords" value="Bippity boppity boo" />
+    </bean>
+
+    <bean id="magicBox"
+          class="com.springinaction.agr.instruments.MagicBoxImpl">
+        <replaced-method
+            name="getContents"
+            replacer="tigerReplacer" />
+    </bean>
+
+    <bean id="tigerReplacer"
+          class="com.springinaction.agr.instruments.TigerReplacer" />
+
+    <bean id="coconut"
+          class="com.springinaction.agr.food.Coconut">
+        <property name="lime" ref="lime" />
+    </bean>
+
+    <lang:jruby id="lime"
+                script-source="classpath:com/springinaction/agr/food/Lime.rb"
+                script-interfaces="com.springinaction.agr.food.Lime" />
 </beans>
